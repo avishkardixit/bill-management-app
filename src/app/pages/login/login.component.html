@@ -1,0 +1,23 @@
+<div class="login-wrapper">
+  <mat-card class="login-card">
+
+    <h1 class="title">Bill Manager</h1>
+    <p class="subtitle">Login to continue</p>
+
+    <mat-form-field appearance="fill" class="full">
+      <mat-label>Email</mat-label>
+      <input matInput [(ngModel)]="email" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" [(ngModel)]="password" />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="full" (click)="login()">
+      Login
+    </button>
+
+    <p class="hint">Demo: admin&#64;mail.com / 123456</p>
+  </mat-card>
+</div>

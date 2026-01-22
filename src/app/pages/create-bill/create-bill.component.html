@@ -1,0 +1,214 @@
+<form [formGroup]="billForm">
+  <div class="bill-container">
+    <h2>Create Bill</h2>
+
+    <!-- Basic Info -->
+    <mat-card class="section">
+      <h3>Basic Details</h3>
+
+      <div class="item-header-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Date</mat-label>
+          <input matInput type="date" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Vehicle Number</mat-label>
+          <input matInput />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Buyer Name</mat-label>
+          <input matInput />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Bill Type</mat-label>
+          <mat-select>
+            <mat-option value="gst">GST</mat-option>
+            <mat-option value="cash">Cash</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-card>
+
+    <!-- Items -->
+    <div formArrayName="items">
+      <mat-card
+        class="section"
+        *ngFor="let item of items.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <!-- HEADER -->
+        <div class="item-header-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Type</mat-label>
+            <mat-select
+              formControlName="type"
+              (selectionChange)="calculateItemTotal(i)"
+            >
+              <mat-option value="Accessories">Accessories</mat-option>
+              <mat-option value="Sheet">Sheet</mat-option>
+              <mat-option value="Profile Sheet">Profile Sheet</mat-option>
+              <mat-option value="Screw">Screw</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field
+            appearance="outline"
+            *ngIf="item.get('type')?.value !== 'Screw'"
+          >
+            <mat-label>Color</mat-label>
+            <mat-select formControlName="color">
+              <mat-option *ngFor="let c of colors" [value]="c">{{
+                c
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Rate</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="rate"
+              (input)="calculateItemTotal(i)"
+            />
+          </mat-form-field>
+
+          <!-- Total Weight (only for Sheet / Profile Sheet) -->
+          <mat-form-field
+            appearance="outline"
+            *ngIf="
+              item.get('type')?.value === 'Sheet' ||
+              item.get('type')?.value === 'Profile Sheet'
+            "
+          >
+            <mat-label>Total Weight (kg)</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="totalWeight"
+              (input)="calculateItemTotal(i)"
+            />
+          </mat-form-field>
+
+          <!-- Total Quantity (only for Accessories / Screw) -->
+          <mat-form-field
+            appearance="outline"
+            *ngIf="
+              item.get('type')?.value === 'Accessories' ||
+              item.get('type')?.value === 'Screw'
+            "
+          >
+            <mat-label>Total Quantity</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="totalQuantity"
+              (input)="calculateItemTotal(i)"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Item Total</mat-label>
+            <input matInput formControlName="amount" [disabled]="true" />
+          </mat-form-field>
+        </div>
+
+        <!-- SIZE ROWS -->
+        <div formArrayName="rows">
+          <div
+            class="item-header-grid row-box"
+            *ngFor="let row of rows(i).controls; let j = index"
+            [formGroupName]="j"
+          >
+            <mat-form-field appearance="outline">
+              <mat-label>Size</mat-label>
+              <input matInput formControlName="size" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Quantity</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="quantity"
+                (input)="calculateItemTotal(i)"
+              />
+            </mat-form-field>
+
+            <button mat-button color="warn" (click)="removeRow(i, j)">
+              Delete
+            </button>
+          </div>
+        </div>
+
+        <button mat-stroked-button (click)="addRow(i)">+ Add Size</button>
+        <button mat-button color="warn" (click)="removeItemSection(i)">
+          Remove Item
+        </button>
+      </mat-card>
+    </div>
+    <div style="margin: 16px 0">
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="addItemSection()"
+      >
+        + Add Another Item Type
+      </button>
+    </div>
+    <!-- Summary -->
+    <mat-card class="section">
+      <h3>Summary</h3>
+
+      <div class="item-header-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Transport</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="transport"
+            (input)="calculateTotal()"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Other Expenses</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="otherExpense"
+            (input)="calculateTotal()"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Total Bill</mat-label>
+          <input matInput formControlName="total" [disabled]="true" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Paid Amount</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="received"
+            (input)="calculateTotal()"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Remaining</mat-label>
+          <input matInput formControlName="remaining" [disabled]="true" />
+        </mat-form-field>
+      </div>
+    </mat-card>
+
+    <!-- Submit -->
+    <div class="actions">
+      <button mat-raised-button color="primary">Save Bill</button>
+    </div>
+  </div>
+</form>
