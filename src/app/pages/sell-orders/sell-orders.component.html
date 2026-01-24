@@ -1,1 +1,64 @@
-<p>sell-orders works!</p>
+<div class="page">
+  <h2>Sell Orders</h2>
+
+  <div *ngIf="loading">Loading...</div>
+
+  <div *ngFor="let bill of bills" class="order-card">
+    <!-- HEADER -->
+    <div class="order-header">
+      <div>
+        <strong class="buyer">{{ bill.buyerName }}</strong><br />
+        <small>{{ bill.date | date }}</small>
+      </div>
+    </div>
+
+    <!-- ITEMS -->
+    <div class="items">
+      <div *ngFor="let item of bill.items" class="item-box">
+        <div class="item-title">
+          {{ item.type }}
+          <span *ngIf="item.color">({{ item.color }})</span>
+        </div>
+
+        <div class="item-details">
+          <div>Rate: ₹{{ item.rate }}</div>
+          <div *ngIf="item.totalWeight > 0">Weight: {{ item.totalWeight }} kg</div>
+          <div *ngIf="item.totalQuantity > 0">Qty: {{ item.totalQuantity }}</div>
+        </div>
+
+        <div class="sizes">
+          <div *ngFor="let row of item.rows">
+            • {{ row.size }} — Qty: {{ row.quantity }}
+          </div>
+        </div>
+
+        <div class="item-amount">
+          ₹{{ item.amount }}
+        </div>
+      </div>
+    </div>
+
+    <!-- SUMMARY (moved to bottom like you wanted) -->
+    <div class="order-summary">
+      <div class="summary-left">
+        <div>Transport: ₹{{ bill.transport }}</div>
+        <div>Other: ₹{{ bill.otherExpense }}</div>
+        <div>Paid: ₹{{ bill.received }}</div>
+      </div>
+
+      <div class="summary-right">
+        <div class="total">Total: ₹{{ bill.total }}</div>
+        <div class="remaining">Remaining: ₹{{ bill.remaining }}</div>
+
+        <button
+          mat-raised-button
+          color="primary"
+          class="generate-btn"
+          [routerLink]="['/app/bill', bill.id]"
+        >
+          Generate Bill
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

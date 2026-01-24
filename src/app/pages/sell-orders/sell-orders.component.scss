@@ -1,0 +1,118 @@
+.page {
+  padding: 16px;
+  background: #f5f7fa;
+}
+
+h2 {
+  margin-bottom: 16px;
+}
+
+/* Card */
+.order-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Header */
+.order-header .buyer {
+  font-size: 16px;
+}
+
+/* Items */
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item-box {
+  border: 1px solid #eee;
+  padding: 12px;
+  border-radius: 8px;
+  background: #fafafa;
+  position: relative;
+}
+
+.item-title {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.item-details {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: #444;
+}
+
+.sizes {
+  font-size: 12px;
+  color: #666;
+  margin-top: 6px;
+}
+
+.item-amount {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-weight: bold;
+}
+
+/* Bottom summary */
+.order-summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 1px dashed #ddd;
+  padding-top: 12px;
+}
+
+.summary-left {
+  font-size: 13px;
+  color: #444;
+}
+
+.summary-right {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.total {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.remaining {
+  color: #c62828;
+  font-weight: 600;
+}
+
+.generate-btn {
+  margin-top: 6px;
+}
+
+/* Mobile optimization */
+@media (max-width: 600px) {
+  .order-summary {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .summary-right {
+    text-align: left;
+  }
+
+  .item-amount {
+    position: static;
+    margin-top: 6px;
+  }
+}

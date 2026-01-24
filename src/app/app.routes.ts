@@ -11,6 +11,7 @@ import { LendingBookComponent } from './pages/lending-book/lending-book.componen
 import { OtherExpensesComponent } from './pages/other-expenses/other-expenses.component';
 import { authGuard } from './auth.guard';
 import { CreateBillComponent } from './pages/create-bill/create-bill.component';
+import { BillViewComponent } from './pages/bill-view/bill-view.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -28,6 +29,7 @@ export const routes: Routes = [
       { path: 'lending-book', component: LendingBookComponent },
       { path: 'other-expenses', component: OtherExpensesComponent },
       { path: 'billing', component: CreateBillComponent },
+      { path: 'bill/:id', component: BillViewComponent }
     ]
   },
   { path: '**', redirectTo: '' }

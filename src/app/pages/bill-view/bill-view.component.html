@@ -1,0 +1,75 @@
+<div *ngIf="bill" class="invoice">
+
+  <!-- Header -->
+  <div class="invoice-header">
+    <h2>Krushna Industries</h2>
+    <p>Billing Invoice</p>
+  </div>
+
+  <!-- Info -->
+  <div class="invoice-info">
+    <div>
+      <strong>Buyer:</strong> {{ bill.buyerName }} <br>
+      <strong>Vehicle:</strong> {{ bill.vehicleNumber }}
+    </div>
+
+    <div>
+      <strong>Date:</strong> {{ bill.date | date }} <br>
+      <strong>Bill Type:</strong> {{ bill.billType }}
+    </div>
+  </div>
+
+  <!-- Items table -->
+  <table class="invoice-table">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Description</th>
+        <th style="text-align:right">Amount</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let item of bill.items">
+        <td>
+          <strong>{{ item.type }}</strong>
+          <div *ngIf="item.color">{{ item.color }}</div>
+        </td>
+
+        <td>
+          Rate: {{ item.rate }} <br>
+
+          <span *ngIf="item.totalWeight > 0">
+            Weight: {{ item.totalWeight }} kg
+          </span>
+
+          <span *ngIf="item.totalQuantity > 0">
+            Quantity: {{ item.totalQuantity }}
+          </span>
+
+          <div *ngFor="let r of item.rows">
+            • {{ r.size }} × {{ r.quantity }}
+          </div>
+        </td>
+
+        <td style="text-align:right">
+          ₹ {{ item.amount | number:'1.2-2' }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Totals -->
+  <div class="totals">
+    <p>Transport: ₹{{ bill.transport }}</p>
+    <p>Other: ₹{{ bill.otherExpense }}</p>
+    <p>Paid: ₹{{ bill.received }}</p>
+    <h3>Total: ₹{{ bill.total }}</h3>
+    <p>Remaining: ₹{{ bill.remaining }}</p>
+  </div>
+
+  <!-- Print -->
+  <div class="actions no-print">
+    <button mat-raised-button color="primary" (click)="printBill()">Print / Save PDF</button>
+  </div>
+</div>

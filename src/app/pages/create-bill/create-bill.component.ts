@@ -11,6 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { BillingService } from '../../services/billing.service';
+import { BillService } from '../../services/bill.service';
 
 @Component({
   selector: 'app-create-bill',
@@ -32,8 +34,17 @@ export class CreateBillComponent {
 
   billForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private billingService: BillingService,
+    private billService: BillService,
+  ) {
     this.billForm = this.fb.group({
+      date: [''],
+      vehicleNumber: [''],
+      buyerName: [''],
+      billType: [''],
+
       items: this.fb.array([]),
       transport: [0],
       otherExpense: [0],
@@ -41,6 +52,7 @@ export class CreateBillComponent {
       total: [{ value: 0, disabled: true }],
       remaining: [{ value: 0, disabled: true }],
     });
+
     this.addItemSection();
   }
 
@@ -179,7 +191,27 @@ export class CreateBillComponent {
     const total = itemsTotal + transport + other;
     const remaining = total - paid;
 
-    this.billForm.get('total')?.setValue(Math.round(total * 100) / 100, { emitEvent: false });
-    this.billForm.get('remaining')?.setValue(Math.round(remaining * 100) / 100, { emitEvent: false });
+    this.billForm
+      .get('total')
+      ?.setValue(Math.round(total * 100) / 100, { emitEvent: false });
+    this.billForm
+      .get('remaining')
+      ?.setValue(Math.round(remaining * 100) / 100, { emitEvent: false });
+  }
+
+  saveBill() {
+    if (this.billForm.invalid) return;
+
+    const payload = this.billForm.getRawValue();
+
+    this.billService.saveBill(payload).subscribe({
+      next: () => {
+        alert('Bill saved successfully!');
+        this.billForm.reset();
+      },
+      error: () => {
+        alert('Failed to save bill');
+      },
+    });
   }
 }

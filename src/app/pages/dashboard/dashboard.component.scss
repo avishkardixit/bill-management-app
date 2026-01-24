@@ -1,0 +1,49 @@
+.dashboard {
+  padding: 20px;
+}
+
+h2 {
+  margin-bottom: 16px;
+}
+
+/* Grid layout */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+/* Card */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid #eee;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
+/* Icon */
+.icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+/* Title */
+.title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Description */
+.desc {
+  font-size: 13px;
+  color: #666;
+  margin-top: 4px;
+}

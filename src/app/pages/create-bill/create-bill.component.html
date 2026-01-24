@@ -9,22 +9,22 @@
       <div class="item-header-grid">
         <mat-form-field appearance="outline">
           <mat-label>Date</mat-label>
-          <input matInput type="date" />
+          <input matInput type="date" formControlName="date"/>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Vehicle Number</mat-label>
-          <input matInput />
+          <input matInput formControlName="vehicleNumber"/>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Buyer Name</mat-label>
-          <input matInput />
+          <input matInput formControlName="buyerName"/>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Bill Type</mat-label>
-          <mat-select>
+          <mat-select formControlName="billType">
             <mat-option value="gst">GST</mat-option>
             <mat-option value="cash">Cash</mat-option>
           </mat-select>
@@ -207,8 +207,8 @@
     </mat-card>
 
     <!-- Submit -->
-    <div class="actions">
-      <button mat-raised-button color="primary">Save Bill</button>
-    </div>
+    <button mat-raised-button color="primary" (click)="saveBill()">
+       Save Bill
+    </button>
   </div>
 </form>

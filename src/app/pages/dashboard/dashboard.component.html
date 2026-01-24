@@ -1,2 +1,33 @@
-<h2>Dashboard</h2>
-<p>Welcome to your business dashboard.</p>
+<div class="dashboard">
+  <h2>Dashboard</h2>
+
+  <div class="cards">
+    <!-- Create Bill -->
+    <div class="card" routerLink="/app/billing">
+      <div class="icon">➕</div>
+      <div class="title">Create Bill</div>
+      <div class="desc">Generate a new bill for customer</div>
+    </div>
+
+    <!-- Sell Orders -->
+    <div class="card" routerLink="/app/sell-orders">
+      <div class="icon">📋</div>
+      <div class="title">Sell Orders</div>
+      <div class="desc">View all generated bills</div>
+    </div>
+
+    <!-- Stock -->
+    <div class="card" routerLink="/app/stock-book">
+      <div class="icon">📦</div>
+      <div class="title">Stock Book</div>
+      <div class="desc">Manage available stock</div>
+    </div>
+
+    <!-- Accounts -->
+    <div class="card" routerLink="/app/account-book">
+      <div class="icon">💰</div>
+      <div class="title">Account Book</div>
+      <div class="desc">Track income & payments</div>
+    </div>
+  </div>
+</div>
