@@ -110,12 +110,10 @@ button:not(.danger) {
     font-weight: 600;
   }
 
-  .ledger td:nth-child(3)::before {
-    content: "Actions: ";
-    font-weight: 600;
-    display: block;
-    margin-bottom: 6px;
-  }
+  /* Remove Actions label for cleaner grid */
+.ledger td:nth-child(3)::before {
+  content: none;
+}
 
   /* Stack buttons vertically */
   .ledger td:nth-child(3) {
