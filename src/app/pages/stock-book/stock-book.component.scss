@@ -84,6 +84,20 @@ input {
 }
 
 /* HISTORY TABLE */
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.history-header select {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 13px;
+}
+
 .history-section {
   background: #fff;
   border-radius: 14px;
@@ -117,4 +131,37 @@ input {
   text-align: center;
   color: #888;
   padding: 20px 0;
+}
+
+/* Mobile optimization */
+@media (max-width: 600px) {
+  .stock-page {
+    padding: 12px;
+  }
+
+  .stock-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
+    gap: 10px;
+  }
+
+  .stock-card {
+    padding: 12px;
+    border-radius: 10px;
+    gap: 8px;
+  }
+
+  .kg {
+    font-size: 20px;
+  }
+
+  .btn-outline,
+  .btn-primary {
+    padding: 4px 10px;
+    font-size: 12px;
+  }
+
+  input {
+    width: 70px;
+    font-size: 12px;
+  }
 }
