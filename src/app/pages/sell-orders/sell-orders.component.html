@@ -1,9 +1,18 @@
 <div class="page">
+  <div class="page-header">
   <h2>Sell Orders</h2>
 
+  <div class="filters">
+      <button mat-stroked-button [class.active]="filter === 'today'" (click)="applyFilter('today')">Today</button>
+      <button mat-stroked-button [class.active]="filter === 'week'" (click)="applyFilter('week')">This Week</button>
+      <button mat-stroked-button [class.active]="filter === 'month'" (click)="applyFilter('month')">This Month</button>
+      <button mat-stroked-button [class.active]="filter === 'all'" (click)="applyFilter('all')">All</button>
+  </div>
+  </div>
+    
   <div *ngIf="loading">Loading...</div>
 
-  <div *ngFor="let bill of bills" class="order-card">
+  <div *ngFor="let bill of filteredBills" class="order-card">
     <!-- HEADER -->
     <div class="order-header">
       <div>

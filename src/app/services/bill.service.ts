@@ -12,7 +12,7 @@ export class BillService {
   }
 
   getBills() {
-    return this.http.get(this.baseUrl);
+     return this.http.get<any[]>(this.baseUrl);
   }
 
   getBillById(id: number) {

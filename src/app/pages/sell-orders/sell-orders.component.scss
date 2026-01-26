@@ -100,6 +100,33 @@ h2 {
   margin-top: 6px;
 }
 
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filters button {
+  font-size: 13px;
+  padding: 4px 10px;
+}
+
+.filters button.active {
+  background: #1976d2;
+  color: white;
+  border-color: #1976d2;
+}
+
+
 /* Mobile optimization */
 @media (max-width: 600px) {
   .order-summary {
