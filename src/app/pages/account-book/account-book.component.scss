@@ -21,7 +21,7 @@
 /* Accounts grid */
 .accounts {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(4, 1fr); /* Always 4 cards on desktop */
   gap: 16px;
 }
 
@@ -74,21 +74,6 @@
   padding: 16px;
 }
 
-.history-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.history-header h3 {
-  margin: 0;
-}
-
-.history-header span {
-  font-size: 13px;
-  color: #777;
-}
 
 /* History list */
 .history-list {
@@ -130,6 +115,98 @@
   color: #aaa;
 }
 
+/* Hide mobile history by default (desktop) */
+.history-mobile {
+  display: none;
+}
+
+/* Mobile behavior */
+@media (max-width: 768px) {
+  .desktop-history {
+    display: none;   // hide external panel
+  }
+
+  .history-mobile {
+    display: block;
+    margin-top: 12px;
+    background: #f9fafb;
+    border-radius: 12px;
+    padding: 12px;
+  }
+}
+
+/* TABLE STYLE FOR DESKTOP HISTORY */
+/* FULL WIDTH HISTORY */
+.history-wrapper {
+  margin-top: 24px;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+/* Header */
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+/* Table */
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.history-table th {
+  background: #f5f7fa;
+  padding: 12px;
+  text-align: left;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.history-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.history-table tr:hover {
+  background: #fafafa;
+}
+
+.credit { color: #2e7d32; font-weight: 600; }
+.debit  { color: #c62828; font-weight: 600; }
+
+/* Desktop default: history visible */
+.history-wrapper {
+  display: block;
+}
+
+/* Mobile: hide desktop history */
+@media (max-width: 768px) {
+  .history-wrapper {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .desktop-history {
+    display: none;
+  }
+}
+
+
+/* Desktop behavior */
+@media (min-width: 769px) {
+  .history-mobile {
+    display: none;  // prevent inline growth
+  }
+}
+
+
 /* Mobile tuning */
 @media (max-width: 600px) {
   .page {
@@ -144,3 +221,18 @@
     font-size: 20px;
   }
 }
+
+@media (max-width: 900px) {
+  .accounts {
+    grid-template-columns: repeat(2, 1fr); /* tablets */
+  }
+}
+
+@media (max-width: 600px) {
+  .accounts {
+    grid-template-columns: 1fr; /* mobile */
+  }
+}
+
+
+

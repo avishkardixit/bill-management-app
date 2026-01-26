@@ -1,38 +1,50 @@
-<div class="page">
+<div class="accounts">
+  <div class="account-card" *ngFor="let a of accounts">
 
-  <div class="page-header">
-    <h2>Account Book</h2>
-    <p class="subtitle">Manage balances and track transactions</p>
-  </div>
-
-  <!-- Accounts -->
-  <div class="accounts">
-    <div class="account-card" *ngFor="let a of accounts">
-
-      <div class="top">
-        <div>
-          <h3>{{ a.name }}</h3>
-          <div class="balance">₹ {{ a.balance | number }}</div>
-        </div>
+    <div class="top">
+      <div>
+        <h3>{{ a.name }}</h3>
+        <div class="balance">₹ {{ a.balance | number }}</div>
       </div>
+    </div>
 
-      <div class="buttons">
-        <button mat-stroked-button color="primary" (click)="open(a, 'Credit')">
-          + Credit
-        </button>
-        <button mat-stroked-button color="warn" (click)="open(a, 'Debit')">
-          − Debit
-        </button>
-      </div>
-
-      <button class="view-history" (click)="toggleHistory(a)">
-        {{ selectedAccount?.id === a.id ? 'Hide History' : 'View History →' }}
+    <div class="buttons">
+      <button mat-stroked-button color="primary" (click)="open(a, 'Credit')">
+        + Credit
+      </button>
+      <button mat-stroked-button color="warn" (click)="open(a, 'Debit')">
+        − Debit
       </button>
     </div>
+
+    <button class="view-history" (click)="toggleHistory(a)">
+      {{ selectedAccount?.id === a.id ? 'Hide History' : 'View History →' }}
+    </button>
+
+    <!-- MOBILE ONLY history -->
+    <div class="history-mobile" *ngIf="selectedAccount?.id === a.id">
+      <ng-container *ngFor="let t of a.transactions">
+        <div class="history-item">
+          <div class="amount">
+            <span [class.credit]="t.type === 'Credit'"
+                  [class.debit]="t.type === 'Debit'">
+              {{ t.type }}
+            </span>
+            ₹{{ t.amount }}
+          </div>
+          <div class="note">{{ t.note || 'No note' }}</div>
+          <div class="date">{{ t.date | date:'dd MMM yyyy, hh:mm a' }}</div>
+        </div>
+      </ng-container>
+    </div>
+
   </div>
 
-  <!-- History Section -->
-  <div class="history-section" *ngIf="selectedAccount">
+ 
+
+</div>
+ <!-- DESKTOP HISTORY (TABLE VIEW) -->
+<div class="history-wrapper" *ngIf="selectedAccount">
 
     <div class="history-header">
       <div>
@@ -40,29 +52,35 @@
         <span>Transaction History</span>
       </div>
 
-      <button mat-icon-button (click)="selectedAccount = null">
-        ✕
-      </button>
+      <button mat-icon-button (click)="selectedAccount = null">✕</button>
     </div>
 
-    <div class="history-list">
-      <div class="history-item" *ngFor="let t of selectedAccount.transactions">
-        <div class="amount">
-          <span [class.credit]="t.type === 'Credit'"
-                [class.debit]="t.type === 'Debit'">
-            {{ t.type }}
-          </span>
-          ₹{{ t.amount }}
-        </div>
+    <table class="history-table">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Amount</th>
+          <th>Note</th>
+          <th>Date</th>
+        </tr>
+      </thead>
 
-        <div class="note">{{ t.note || 'No note' }}</div>
-        <div class="date">{{ t.date | date:'dd MMM yyyy, hh:mm a' }}</div>
-      </div>
+      <tbody>
+        <tr *ngFor="let t of selectedAccount.transactions">
+          <td>
+            <span [class.credit]="t.type === 'Credit'"
+                  [class.debit]="t.type === 'Debit'">
+              {{ t.type }}
+            </span>
+          </td>
+          <td>₹{{ t.amount }}</td>
+          <td>{{ t.note || '—' }}</td>
+          <td>{{ t.date | date:'dd MMM yyyy, hh:mm a' }}</td>
+        </tr>
 
-      <div class="empty" *ngIf="selectedAccount.transactions.length === 0">
-        No transactions yet
-      </div>
-    </div>
+        <tr *ngIf="selectedAccount.transactions.length === 0">
+          <td colspan="4" class="empty">No transactions yet</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-
-</div>
