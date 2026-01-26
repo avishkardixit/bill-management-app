@@ -14,7 +14,7 @@ export class PurchaseOrderDialogComponent {
     date: '',
     party: '',
     color: '',
-    amount: 0
+    amountPaid: 0
   };
 
   constructor(

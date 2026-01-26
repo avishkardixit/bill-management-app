@@ -1,7 +1,10 @@
 <div class="page">
 
   <div class="header">
-    <h2>Purchase Orders</h2>
+    <div>
+      <h2>Purchase Orders</h2>
+      <p class="subtitle">Manage all purchase entries</p>
+    </div>
 
     <button mat-raised-button color="primary" (click)="add()">
       + Add Purchase
@@ -19,20 +22,22 @@
           <th>Party</th>
           <th>Color</th>
           <th>Amount</th>
-          <th style="width:120px">Actions</th>
+          <th class="actions-col">Actions</th>
         </tr>
       </thead>
 
       <tbody>
         <tr *ngFor="let o of orders; let i = index">
-          <td>{{ i + 1 }}</td>
-          <td>{{ o.date | date }}</td>
-          <td>{{ o.party }}</td>
-          <td>{{ o.color }}</td>
-          <td>₹{{ o.amountPaid }}</td>
+          <td class="muted">{{ i + 1 }}</td>
+          <td>{{ o.date | date:'dd MMM' }}</td>
+          <td class="strong">{{ o.party }}</td>
           <td>
-            <button mat-button color="primary" (click)="edit(o)">Edit</button>
-            <button mat-button color="warn" (click)="delete(o.id)">Delete</button>
+            <span class="color-pill">{{ o.color }}</span>
+          </td>
+          <td class="amount">₹{{ o.amountPaid }}</td>
+          <td class="actions">
+            <button mat-stroked-button color="primary" (click)="edit(o)">Edit</button>
+            <button mat-stroked-button color="warn" (click)="delete(o.id)">Delete</button>
           </td>
         </tr>
 
