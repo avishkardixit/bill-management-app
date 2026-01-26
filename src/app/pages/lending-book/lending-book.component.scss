@@ -156,4 +156,14 @@ button:not(.danger) {
   .history td:nth-child(2)::before { content: "Type: "; font-weight: 600; }
   .history td:nth-child(3)::before { content: "Amount: "; font-weight: 600; }
   .history td:nth-child(4)::before { content: "Reference: "; font-weight: 600; }
+
+ .ledger tr td[colspan] {
+    padding: 0;
+    border: none;
+  }
+
+  .ledger tr:has(td[colspan]):not(:has(.history)) {
+    display: none;
+  }
+
 }

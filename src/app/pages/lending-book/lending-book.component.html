@@ -10,50 +10,61 @@
   <table class="ledger">
     <thead>
       <tr>
-        <th>Party</th>
+        <th *ngIf="selected">Party</th>
         <th>Balance</th>
         <th>Actions</th>
       </tr>
     </thead>
 
     <tbody>
-      <tr *ngFor="let p of parties">
-        <td>{{ p.partyName }}</td>
-        <td>₹ {{ p.balance }}</td>
-        <td>
-          <button mat-stroked-button color="accent" (click)="select(p)">View History</button>
-          <button mat-stroked-button color="primary" (click)="addAmount(p)">
-            Add Amount
-          </button>
-          <button mat-stroked-button color="accent" (click)="receiveAmount(p)">
-            Received Amount
-          </button>
-          <button mat-stroked-button color="warn" (click)="delete(p.id)">
-            Delete Entry
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <ng-container *ngFor="let p of parties">
 
-  <!-- Transaction history -->
-  <div *ngIf="selected" class="history">
-    <h3>Transactions – {{ selected.partyName }}</h3>
+    <!-- Main row -->
+    <tr>
+      <td>{{ p.partyName }}</td>
+      <td>₹ {{ p.balance }}</td>
+      <td>
+        <button mat-stroked-button color="accent" (click)="select(p)">
+          {{ selected?.id === p.id ? 'Hide History' : 'View History' }}
+        </button>
+        <button mat-stroked-button color="primary" (click)="addAmount(p)">
+          Add Amount
+        </button>
+        <button mat-stroked-button color="accent" (click)="receiveAmount(p)">
+          Received Amount
+        </button>
+        <button mat-stroked-button color="warn" (click)="delete(p.id)">
+          Delete Entry
+        </button>
+      </td>
+    </tr>
 
-    <table>
-      <tr>
-        <th>Date</th>
-        <th>Type</th>
-        <th>Amount</th>
-        <th>Reference</th>
-      </tr>
+    <!-- History directly under selected row -->
+    <tr *ngIf="selected?.id === p.id">
+      <td colspan="3">
+        <div class="history">
+          <h3>Transactions – {{ selected.partyName }}</h3>
 
-      <tr *ngFor="let t of transactions">
-        <td>{{ t.date | date: "short" }}</td>
-        <td>{{ t.type }}</td>
-        <td>₹ {{ t.amount }}</td>
-        <td>{{ t.reference }}</td>
-      </tr>
-    </table>
-  </div>
+          <table>
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Amount</th>
+              <th>Reference</th>
+            </tr>
+
+            <tr *ngFor="let t of transactions">
+              <td>{{ t.date | date: "short" }}</td>
+              <td>{{ t.type }}</td>
+              <td>₹ {{ t.amount }}</td>
+              <td>{{ t.reference }}</td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+
+  </ng-container>
+</tbody>
+</table>
 </div>
