@@ -9,17 +9,17 @@
       <div class="item-header-grid">
         <mat-form-field appearance="outline">
           <mat-label>Date</mat-label>
-          <input matInput type="date" formControlName="date"/>
+          <input matInput type="date" formControlName="date" />
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Vehicle Number</mat-label>
-          <input matInput formControlName="vehicleNumber"/>
+          <input matInput formControlName="vehicleNumber" />
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Buyer Name</mat-label>
-          <input matInput formControlName="buyerName"/>
+          <input matInput formControlName="buyerName" />
         </mat-form-field>
 
         <mat-form-field appearance="outline">
@@ -77,13 +77,7 @@
           </mat-form-field>
 
           <!-- Total Weight (only for Sheet / Profile Sheet) -->
-          <mat-form-field
-            appearance="outline"
-            *ngIf="
-              item.get('type')?.value === 'Sheet' ||
-              item.get('type')?.value === 'Profile Sheet'
-            "
-          >
+          <mat-form-field appearance="outline">
             <mat-label>Total Weight (kg)</mat-label>
             <input
               matInput
@@ -208,7 +202,7 @@
 
     <!-- Submit -->
     <button mat-raised-button color="primary" (click)="saveBill()">
-       Save Bill
+      Save Bill
     </button>
   </div>
 </form>

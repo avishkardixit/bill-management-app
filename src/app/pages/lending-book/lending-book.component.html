@@ -1,1 +1,60 @@
-<p>lending-book works!</p>
+<div class="lending-page">
+  <h2>Lending Book</h2>
+
+  <!-- Add party -->
+  <div class="add-party">
+    <input [(ngModel)]="newParty" placeholder="Party name" />
+    <button (click)="openAddPartyDialog()">Add Party</button>
+  </div>
+
+  <!-- Ledger table -->
+  <table class="ledger">
+    <thead>
+      <tr>
+        <th>Party</th>
+        <th>Balance</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let p of parties">
+        <td>{{ p.partyName }}</td>
+        <td>₹ {{ p.balance }}</td>
+        <td>
+          <button mat-stroked-button color="accent" (click)="select(p)">View</button>
+          <button mat-stroked-button color="primary" (click)="addAmount(p)">
+            Add
+          </button>
+          <button mat-stroked-button color="accent" (click)="receiveAmount(p)">
+            Receive
+          </button>
+          <button mat-stroked-button color="warn" (click)="delete(p.id)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Transaction history -->
+  <div *ngIf="selected" class="history">
+    <h3>Transactions – {{ selected.partyName }}</h3>
+
+    <table>
+      <tr>
+        <th>Date</th>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Reference</th>
+      </tr>
+
+      <tr *ngFor="let t of transactions">
+        <td>{{ t.date | date: "short" }}</td>
+        <td>{{ t.type }}</td>
+        <td>₹ {{ t.amount }}</td>
+        <td>{{ t.reference }}</td>
+      </tr>
+    </table>
+  </div>
+</div>
