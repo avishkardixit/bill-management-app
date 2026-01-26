@@ -1,0 +1,38 @@
+<div class="dialog-wrapper">
+  <h2 class="title">
+    {{ data ? 'Edit Purchase Order' : 'Add Purchase Order' }}
+  </h2>
+
+  <div class="form">
+    <div class="field">
+      <label>Date</label>
+      <input type="date" [(ngModel)]="form.date" />
+    </div>
+
+    <div class="field">
+      <label>Party Name</label> 
+      <input type="text" [(ngModel)]="form.party" placeholder="Supplier name" />
+    </div>
+
+    <div class="field">
+      <label>Coil Color</label>
+      <select [(ngModel)]="form.color">
+        <option value="">Select Color</option>
+        <option>Off White</option>
+        <option>Blue</option>
+        <option>Grey</option>
+        <option>Turkish Blue</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Amount Paid</label>
+      <input type="number" [(ngModel)]="form.amount" placeholder="₹ Amount" />
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn cancel" (click)="cancel()">Cancel</button>
+    <button class="btn primary" (click)="save()">Save</button>
+  </div>
+</div>

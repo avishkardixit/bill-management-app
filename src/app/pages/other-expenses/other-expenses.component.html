@@ -1,1 +1,54 @@
-<p>other-expenses works!</p>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <h2>Other Expenses</h2>
+      <p class="subtitle">Manage and track all business expenses</p>
+    </div>
+
+    <div class="header-actions">
+      <div class="total-box">
+        Total Expense<br />
+        <strong>₹{{ total }}</strong>
+      </div>
+
+      <button mat-raised-button color="primary" (click)="add()">
+        + Add Expense
+      </button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Name</th>
+          <th>Expense</th>
+          <th class="right">Amount</th>
+          <th class="center">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let e of expenses">
+          <td>{{ e.date | date:'dd MMM yyyy' }}</td>
+          <td>{{ e.personName }}</td>
+          <td>{{ e.expenseName }}</td>
+          <td class="right">₹{{ e.amount }}</td>
+          <td class="center actions">
+            <button mat-stroked-button color="primary" (click)="edit(e)">Edit</button>
+            <button mat-stroked-button color="warn" (click)="delete(e.id)">Delete</button>
+          </td>
+        </tr>
+
+        <tr *ngIf="expenses.length === 0">
+          <td colspan="5" class="empty">No expenses added yet</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

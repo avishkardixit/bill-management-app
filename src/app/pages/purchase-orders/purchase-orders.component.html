@@ -1,1 +1,48 @@
-<p>purchase-orders works!</p>
+<div class="page">
+
+  <div class="header">
+    <h2>Purchase Orders</h2>
+
+    <button mat-raised-button color="primary" (click)="add()">
+      + Add Purchase
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="loading">Loading...</div>
+
+  <div class="table-wrapper" *ngIf="!loading">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Party</th>
+          <th>Color</th>
+          <th>Amount</th>
+          <th style="width:120px">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let o of orders; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ o.date | date }}</td>
+          <td>{{ o.party }}</td>
+          <td>{{ o.color }}</td>
+          <td>₹{{ o.amountPaid }}</td>
+          <td>
+            <button mat-button color="primary" (click)="edit(o)">Edit</button>
+            <button mat-button color="warn" (click)="delete(o.id)">Delete</button>
+          </td>
+        </tr>
+
+        <tr *ngIf="orders.length === 0">
+          <td colspan="6" class="empty">
+            No purchase orders yet
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

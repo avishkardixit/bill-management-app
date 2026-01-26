@@ -1,46 +1,52 @@
 <mat-sidenav-container class="container">
-
-  <!-- Right sidenav -->
+  <!-- Sidebar -->
   <mat-sidenav
-    #sidenav
-    position="end"
-    mode="over"
-    class="sidenav">
+    #drawer
+    [mode]="isMobile ? 'over' : 'side'"
+    [opened]="!isMobile"
+    class="sidenav"
+  >
+    <div class="logo"><span>📒</span> Bill Manager</div>
 
-    <div class="sidebar-header">Bill Manager</div>
-
-    <nav class="nav-links">
-      <a mat-button routerLink="/app/billing" (click)="close()" >Create Bill</a>
-      <a mat-button routerLink="/app/dashboard" (click)="close()">Dashboard</a>
-      <a mat-button routerLink="/app/sell-orders" (click)="close()">Sell Orders</a>
-      <a mat-button routerLink="/app/purchase-orders" (click)="close()">Purchase Orders</a>
-      <a mat-button routerLink="/app/stock-book" (click)="close()">Stock Book</a>
-      <a mat-button routerLink="/app/account-book" (click)="close()">Account Book</a>
-      <a mat-button routerLink="/app/lending-book" (click)="close()">Lending Book</a>
-      <a mat-button routerLink="/app/other-expenses" (click)="close()">Other Expenses</a>
+    <nav>
+      <a routerLink="/app/dashboard" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/app/billing" routerLinkActive="active">Create Bill</a>
+      <a routerLink="/app/sell-orders" routerLinkActive="active">Sell Orders</a>
+      <a routerLink="/app/purchase-orders" routerLinkActive="active"
+        >Purchase Orders</a
+      >
+      <a routerLink="/app/stock-book" routerLinkActive="active">Stock Book</a>
+      <a routerLink="/app/account-book" routerLinkActive="active"
+        >Account Book</a
+      >
+      <a routerLink="/app/lending-book" routerLinkActive="active"
+        >Lending Book</a
+      >
+      <a routerLink="/app/other-expenses" routerLinkActive="active"
+        >Other Expenses</a
+      >
     </nav>
-
   </mat-sidenav>
 
-  <!-- Main content -->
+  <!-- Main -->
   <mat-sidenav-content>
-
-    <!-- Top toolbar -->
-    <mat-toolbar color="primary" class="toolbar">
-      <span class="app-title">Bill Management</span>
-
-      <span class="spacer"></span>
-
-      <!-- Hamburger on RIGHT -->
-      <button mat-icon-button (click)="sidenav.toggle()">
+    <!-- Top bar -->
+    <mat-toolbar class="topbar">
+      <button
+        mat-icon-button
+        class="menu-btn"
+        (click)="drawer.toggle()"
+        *ngIf="isMobile"
+      >
         <mat-icon>menu</mat-icon>
       </button>
+
+      <span class="title">Krushna Industries Billing</span>
     </mat-toolbar>
 
-    <div class="page">
+    <!-- Page content -->
+    <div class="content">
       <router-outlet></router-outlet>
     </div>
-
   </mat-sidenav-content>
-
 </mat-sidenav-container>

@@ -3,7 +3,6 @@
 
   <!-- Add party -->
   <div class="add-party">
-    <input [(ngModel)]="newParty" placeholder="Party name" />
     <button (click)="openAddPartyDialog()">Add Party</button>
   </div>
 
@@ -22,15 +21,15 @@
         <td>{{ p.partyName }}</td>
         <td>₹ {{ p.balance }}</td>
         <td>
-          <button mat-stroked-button color="accent" (click)="select(p)">View</button>
+          <button mat-stroked-button color="accent" (click)="select(p)">View History</button>
           <button mat-stroked-button color="primary" (click)="addAmount(p)">
-            Add
+            Add Amount
           </button>
           <button mat-stroked-button color="accent" (click)="receiveAmount(p)">
-            Receive
+            Received Amount
           </button>
           <button mat-stroked-button color="warn" (click)="delete(p.id)">
-            Delete
+            Delete Entry
           </button>
         </td>
       </tr>

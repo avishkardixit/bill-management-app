@@ -1,33 +1,45 @@
 <div class="dashboard">
   <h2>Dashboard</h2>
 
-  <div class="cards">
-    <!-- Create Bill -->
-    <div class="card" routerLink="/app/billing">
-      <div class="icon">➕</div>
-      <div class="title">Create Bill</div>
-      <div class="desc">Generate a new bill for customer</div>
+  <!-- Primary action -->
+  <div class="primary" routerLink="/app/billing">
+    <div class="icon">🧾</div>
+    <div>
+      <h3>Create Bill</h3>
+      <p>Generate a new customer bill</p>
     </div>
+  </div>
 
-    <!-- Sell Orders -->
-    <div class="card" routerLink="/app/sell-orders">
+  <!-- Other actions -->
+  <div class="grid">
+    <div class="tile" routerLink="/app/sell-orders">
       <div class="icon">📋</div>
-      <div class="title">Sell Orders</div>
-      <div class="desc">View all generated bills</div>
+      <div class="label">Sell Orders</div>
     </div>
 
-    <!-- Stock -->
-    <div class="card" routerLink="/app/stock-book">
+    <div class="tile" routerLink="/app/purchase-orders">
+      <div class="icon">🛒</div>
+      <div class="label">Purchase Orders</div>
+    </div>
+
+    <div class="tile" routerLink="/app/stock-book">
       <div class="icon">📦</div>
-      <div class="title">Stock Book</div>
-      <div class="desc">Manage available stock</div>
+      <div class="label">Stock Book</div>
     </div>
 
-    <!-- Accounts -->
-    <div class="card" routerLink="/app/account-book">
+    <div class="tile" routerLink="/app/account-book">
       <div class="icon">💰</div>
-      <div class="title">Account Book</div>
-      <div class="desc">Track income & payments</div>
+      <div class="label">Account Book</div>
+    </div>
+
+    <div class="tile" routerLink="/app/lending-book">
+      <div class="icon">🤝</div>
+      <div class="label">Lending Book</div>
+    </div>
+
+    <div class="tile" routerLink="/app/other-expenses">
+      <div class="icon">🧮</div>
+      <div class="label">Other Expenses</div>
     </div>
   </div>
 </div>

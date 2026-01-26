@@ -16,3 +16,36 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     position: relative;
   }
 }
+
+* {
+  box-sizing: border-box;
+}
+
+.page {
+  padding: 12px;
+}
+
+/* All cards */
+.card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  margin-bottom: 12px;
+}
+
+/* Buttons */
+button {
+  border-radius: 10px !important;
+}
+
+/* Inputs */
+mat-form-field {
+  font-size: 14px;
+}
+
+/* Prevent overflow */
+table {
+  max-width: 100%;
+}
+

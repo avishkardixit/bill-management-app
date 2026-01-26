@@ -66,3 +66,96 @@ button:not(.danger) {
   border-collapse: collapse;
   margin-top: 10px;
 }
+/* MOBILE FIX ONLY */
+@media (max-width: 768px) {
+
+  /* Convert main ledger table to card layout */
+  .ledger,
+  .ledger thead,
+  .ledger tbody,
+  .ledger th,
+  .ledger td,
+  .ledger tr {
+    display: block;
+  }
+
+  /* Hide header row */
+  .ledger thead {
+    display: none;
+  }
+
+  /* Each row becomes a card */
+  .ledger tr {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  /* Each cell becomes its own row */
+  .ledger td {
+    border: none;
+    padding: 6px 0;
+  }
+
+  /* Label before value */
+  .ledger td:nth-child(1)::before {
+    content: "Party: ";
+    font-weight: 600;
+  }
+
+  .ledger td:nth-child(2)::before {
+    content: "Balance: ";
+    font-weight: 600;
+  }
+
+  .ledger td:nth-child(3)::before {
+    content: "Actions: ";
+    font-weight: 600;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  /* Stack buttons vertically */
+  .ledger td:nth-child(3) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .ledger button {
+    width: 100%;
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+
+  /* History table also responsive */
+  .history table,
+  .history tr,
+  .history td,
+  .history th {
+    display: block;
+  }
+
+  .history th {
+    display: none;
+  }
+
+  .history tr {
+    border: 1px solid #eee;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+  }
+
+  .history td {
+    border: none;
+    padding: 4px 0;
+  }
+
+  .history td:nth-child(1)::before { content: "Date: "; font-weight: 600; }
+  .history td:nth-child(2)::before { content: "Type: "; font-weight: 600; }
+  .history td:nth-child(3)::before { content: "Amount: "; font-weight: 600; }
+  .history td:nth-child(4)::before { content: "Reference: "; font-weight: 600; }
+}
