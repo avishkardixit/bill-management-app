@@ -166,4 +166,27 @@ button:not(.danger) {
     display: none;
   }
 
+  @media (max-width: 768px) {
+
+  /* Remove Party label above history block */
+  .ledger tr td[colspan]::before {
+    content: none !important;
+  }
+
+  /* Remove extra outer border around history container */
+  .history {
+    border: none;
+    padding: 8px 0;
+  }
+
+  /* Make history cards cleaner */
+  .history tr {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background: #fafafa;
+  }
+
+}
+
+
 }
