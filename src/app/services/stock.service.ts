@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 
 @Injectable({ providedIn: 'root' })
 export class StockService {
-  private api = 'https://localhost:7212/api/Stock';
+  private api = 'https://krushna-billing-api.azurewebsites.net/api/Stock';
 
   constructor(private http: HttpClient) {}
 

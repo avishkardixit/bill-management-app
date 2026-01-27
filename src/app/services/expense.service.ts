@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ExpenseService {
-  private api = 'https://localhost:7212/api/otherexpenses';
+  private api = 'https://krushna-billing-api.azurewebsites.net/api/otherexpenses';
 
   constructor(private http: HttpClient) {}
 

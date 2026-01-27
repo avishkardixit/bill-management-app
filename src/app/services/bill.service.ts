@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class BillService {
-  private baseUrl = 'https://localhost:7212/api/Bills'; // change port if different
+  private baseUrl = 'https://krushna-billing-api.azurewebsites.net/api/Bills'; // change port if different
 
   constructor(private http: HttpClient) {}
 
