@@ -5,7 +5,7 @@ export class AuthService {
   isLoggedIn = false;
 
   login(email: string, password: string): boolean {
-    if (email === 'admin' && password === '1234') {
+    if (email === 'admin' && password === 'admin@123') {
       this.isLoggedIn = true;
       return true;
     }
