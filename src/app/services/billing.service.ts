@@ -5,19 +5,30 @@ import { Injectable } from '@angular/core';
 })
 export class BillingService {
 
+  private storageKey = 'sellOrders';
   private sellOrders: any[] = [];
+
+  constructor() {
+    // Load cached data on app start
+    const saved = localStorage.getItem(this.storageKey);
+    if (saved) {
+      this.sellOrders = JSON.parse(saved);
+    }
+  }
 
   saveBill(bill: any) {
     const billWithId = {
       ...bill,
-      id: Date.now(),          // simple unique id
+      id: Date.now(),
       createdAt: new Date()
     };
 
-    this.sellOrders.push(billWithId);
+    this.sellOrders.unshift(billWithId); // newest first
+
+    // Save to localStorage
+    localStorage.setItem(this.storageKey, JSON.stringify(this.sellOrders));
 
     console.log('Bill Saved:', billWithId);
-    console.log('All Sell Orders:', this.sellOrders);
   }
 
   getSellOrders() {
