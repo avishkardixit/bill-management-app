@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { finalize } from 'rxjs';
 import { BillingService } from '../../services/billing.service';
 import { BillService } from '../../services/bill.service';
 
@@ -33,6 +34,9 @@ export class CreateBillComponent {
   colors = ['Off White', 'Blue', 'Grey', 'Turkish Blue'];
 
   billForm: FormGroup;
+  isSaving = false;
+  saveStatus: 'idle' | 'saving' | 'success' | 'error' = 'idle';
+  saveMessage = '';
 
   constructor(
     private fb: FormBuilder,
@@ -200,18 +204,34 @@ export class CreateBillComponent {
   }
 
   saveBill() {
-    if (this.billForm.invalid) return;
+    if (this.billForm.invalid || this.isSaving) return;
 
     const payload = this.billForm.getRawValue();
+    this.isSaving = true;
+    this.saveStatus = 'saving';
+    this.saveMessage = 'Saving bill...';
 
-    this.billService.saveBill(payload).subscribe({
-      next: () => {
-        alert('Bill saved successfully!');
-        this.billForm.reset();
-      },
-      error: () => {
-        alert('Failed to save bill');
-      },
-    });
+    this.billService
+      .saveBill(payload)
+      .pipe(finalize(() => (this.isSaving = false)))
+      .subscribe({
+        next: () => {
+          this.saveStatus = 'success';
+          this.saveMessage = 'Bill saved successfully!';
+          this.billForm.reset();
+          setTimeout(() => {
+            this.saveStatus = 'idle';
+            this.saveMessage = '';
+          }, 1400);
+        },
+        error: () => {
+          this.saveStatus = 'error';
+          this.saveMessage = 'Failed to save bill';
+          setTimeout(() => {
+            this.saveStatus = 'idle';
+            this.saveMessage = '';
+          }, 2200);
+        },
+      });
   }
 }

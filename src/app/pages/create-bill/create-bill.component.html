@@ -201,8 +201,41 @@
     </mat-card>
 
     <!-- Submit -->
-    <button mat-raised-button color="primary" (click)="saveBill()">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="saveBill()"
+      [disabled]="isSaving"
+    >
       Save Bill
     </button>
   </div>
 </form>
+
+<div
+  class="page-loader-overlay"
+  *ngIf="saveStatus !== 'idle'"
+  aria-live="polite"
+>
+  <div class="page-loader-card" role="status" aria-label="Bill save status">
+    <span
+      class="page-loader"
+      *ngIf="saveStatus === 'saving'"
+      aria-hidden="true"
+    ></span>
+    <span
+      class="status-icon success"
+      *ngIf="saveStatus === 'success'"
+      aria-hidden="true"
+      >&#10003;</span
+    >
+    <span
+      class="status-icon error"
+      *ngIf="saveStatus === 'error'"
+      aria-hidden="true"
+      >!</span
+    >
+    <p>{{ saveMessage }}</p>
+  </div>
+</div>
+
