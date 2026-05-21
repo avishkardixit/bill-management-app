@@ -1,16 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormArray,
   FormBuilder,
   FormGroup,
+  FormGroupDirective,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { provideNativeDateAdapter } from '@angular/material/core';
 import { finalize } from 'rxjs';
 import { BillingService } from '../../services/billing.service';
 import { BillService } from '../../services/bill.service';
@@ -26,11 +30,15 @@ import { BillService } from '../../services/bill.service';
     MatSelectModule,
     MatButtonModule,
     MatCardModule,
+    MatDatepickerModule,
   ],
+  providers: [provideNativeDateAdapter()],
   templateUrl: './create-bill.component.html',
   styleUrls: ['./create-bill.component.scss'],
 })
 export class CreateBillComponent {
+  @ViewChild(FormGroupDirective) private formDirective?: FormGroupDirective;
+
   colors = ['Off White', 'Blue', 'Grey', 'Turkish Blue'];
 
   billForm: FormGroup;
@@ -44,15 +52,15 @@ export class CreateBillComponent {
     private billService: BillService,
   ) {
     this.billForm = this.fb.group({
-      date: [''],
-      vehicleNumber: [''],
-      buyerName: [''],
-      billType: [''],
+      date: ['', Validators.required],
+      vehicleNumber: ['', Validators.required],
+      buyerName: ['', Validators.required],
+      billType: ['', Validators.required],
 
       items: this.fb.array([]),
-      transport: [0],
-      otherExpense: [0],
-      received: [0],
+      transport: [0, Validators.required],
+      otherExpense: [0, Validators.required],
+      received: [0, Validators.required],
       total: [{ value: 0, disabled: true }],
       remaining: [{ value: 0, disabled: true }],
     });
@@ -67,11 +75,11 @@ export class CreateBillComponent {
 
   addItemSection() {
     const item = this.fb.group({
-      type: ['Sheet'],
-      color: [''],
-      rate: [0],
+      type: ['Sheet', Validators.required],
+      color: ['', Validators.required],
+      rate: [0, Validators.required],
 
-      totalWeight: [0], // for Sheet / Profile Sheet
+      totalWeight: [0, Validators.required], // for Sheet / Profile Sheet
       totalQuantity: [0], // for Accessories / Screw
 
       amount: [{ value: 0, disabled: true }],
@@ -79,13 +87,17 @@ export class CreateBillComponent {
     });
 
     // Recalculate when item-level fields change
-    item.get('type')!.valueChanges.subscribe(() => this.recalculateItem(item));
+    item.get('type')!.valueChanges.subscribe(() => {
+      this.updateItemValidators(item);
+      this.recalculateItem(item);
+    });
     item.get('rate')!.valueChanges.subscribe(() => this.recalculateItem(item));
     item
       .get('totalWeight')!
       .valueChanges.subscribe(() => this.recalculateItem(item));
 
     // Recalculate when first row changes
+    this.updateItemValidators(item);
     this.watchRows(item);
 
     this.items.push(item);
@@ -103,8 +115,8 @@ export class CreateBillComponent {
 
   createRow() {
     return this.fb.group({
-      size: [''],
-      quantity: [0],
+      size: ['', Validators.required],
+      quantity: [0, Validators.required],
     });
   }
 
@@ -150,6 +162,31 @@ export class CreateBillComponent {
     item.get('amount')?.setValue(amount, { emitEvent: false });
 
     this.calculateTotal();
+  }
+
+  updateItemValidators(item: FormGroup) {
+    const type = (item.get('type')?.value || '').toLowerCase();
+    const color = item.get('color');
+    const totalWeight = item.get('totalWeight');
+    const totalQuantity = item.get('totalQuantity');
+
+    if (type === 'screw') {
+      color?.clearValidators();
+    } else {
+      color?.setValidators(Validators.required);
+    }
+
+    if (type === 'accessories' || type === 'screw') {
+      totalWeight?.clearValidators();
+      totalQuantity?.setValidators(Validators.required);
+    } else {
+      totalWeight?.setValidators(Validators.required);
+      totalQuantity?.clearValidators();
+    }
+
+    color?.updateValueAndValidity({ emitEvent: false });
+    totalWeight?.updateValueAndValidity({ emitEvent: false });
+    totalQuantity?.updateValueAndValidity({ emitEvent: false });
   }
 
   removeRow(itemIndex: number, rowIndex: number) {
@@ -204,9 +241,23 @@ export class CreateBillComponent {
   }
 
   saveBill() {
-    if (this.billForm.invalid || this.isSaving) return;
+    if (this.isSaving) return;
 
-    const payload = this.billForm.getRawValue();
+    if (this.billForm.invalid) {
+      this.billForm.markAllAsTouched();
+      this.saveStatus = 'error';
+      this.saveMessage = 'Please fill all required fields.';
+      setTimeout(() => {
+        this.saveStatus = 'idle';
+        this.saveMessage = '';
+      }, 2200);
+      return;
+    }
+
+    const payload = {
+      ...this.billForm.getRawValue(),
+      date: this.formatDateForPayload(this.billForm.getRawValue().date),
+    };
     this.isSaving = true;
     this.saveStatus = 'saving';
     this.saveMessage = 'Saving bill...';
@@ -218,7 +269,7 @@ export class CreateBillComponent {
         next: () => {
           this.saveStatus = 'success';
           this.saveMessage = 'Bill saved successfully!';
-          this.billForm.reset();
+          this.resetBillForm();
           setTimeout(() => {
             this.saveStatus = 'idle';
             this.saveMessage = '';
@@ -233,5 +284,48 @@ export class CreateBillComponent {
           }, 2200);
         },
       });
+  }
+
+  private formatDateForPayload(value: Date | string | null) {
+    if (!value) return value;
+    if (typeof value === 'string') return value;
+
+    const year = value.getFullYear();
+    const month = `${value.getMonth() + 1}`.padStart(2, '0');
+    const day = `${value.getDate()}`.padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+  }
+
+  private resetBillForm() {
+    this.items.clear();
+    this.addItemSection();
+
+    const resetValue = {
+      date: '',
+      vehicleNumber: '',
+      buyerName: '',
+      billType: '',
+      items: [
+        {
+          type: 'Sheet',
+          color: '',
+          rate: 0,
+          totalWeight: 0,
+          totalQuantity: 0,
+          amount: 0,
+          rows: [{ size: '', quantity: 0 }],
+        },
+      ],
+      transport: 0,
+      otherExpense: 0,
+      received: 0,
+      total: 0,
+      remaining: 0,
+    };
+
+    this.formDirective?.resetForm(resetValue);
+    this.billForm.markAsPristine();
+    this.billForm.markAsUntouched();
   }
 }
