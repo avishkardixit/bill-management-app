@@ -25,7 +25,7 @@ import { AuthService, RegisterUserRequest } from '../../auth.service';
   styleUrl: './admin-users.component.scss'
 })
 export class AdminUsersComponent {
-  accessLevels: RegisterUserRequest['accessLevel'][] = ['Read', 'Write', 'Admin'];
+  accessLevels: RegisterUserRequest['accessLevel'][] = ['Read', 'Write'];
   isSaving = false;
   submitted = false;
 
