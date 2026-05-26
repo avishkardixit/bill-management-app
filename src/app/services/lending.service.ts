@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, tap } from 'rxjs';
+import { API_BASE_URL } from '../api.config';
 
 @Injectable({ providedIn: 'root' })
 export class LendingService {
-  private api = 'https://krushna-billing-api.azurewebsites.net/api/Lending';
+  private api = `${API_BASE_URL}/Lending`;
 
   // 👇 caches
   private accountsCache: any[] | null = null;

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, tap } from 'rxjs';
+import { API_BASE_URL } from '../api.config';
 
 @Injectable({ providedIn: 'root' })
 export class BillService {
-  private baseUrl = 'https://krushna-billing-api.azurewebsites.net/api/Bills';
+  private baseUrl = `${API_BASE_URL}/Bills`;
 
   // 👇 cache stored here
   private billsCache: any[] | null = null;

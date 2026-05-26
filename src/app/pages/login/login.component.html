@@ -14,8 +14,8 @@
       <input matInput type="password" [(ngModel)]="password" />
     </mat-form-field>
 
-    <button mat-raised-button color="primary" class="full" (click)="login()">
-      Login
+    <button mat-raised-button color="primary" class="full" (click)="login()" [disabled]="isLoading">
+      {{ isLoading ? 'Logging in...' : 'Login' }}
     </button>
 
   </mat-card>

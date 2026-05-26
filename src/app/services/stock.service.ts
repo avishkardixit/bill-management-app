@@ -1,10 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, of, tap } from "rxjs";
+import { API_BASE_URL } from "../api.config";
 
 @Injectable({ providedIn: 'root' })
 export class StockService {
-  private api = 'https://krushna-billing-api.azurewebsites.net/api/Stock';
+  private api = `${API_BASE_URL}/Stock`;
 
   // 👇 caches
   private stockCache: any[] | null = null;

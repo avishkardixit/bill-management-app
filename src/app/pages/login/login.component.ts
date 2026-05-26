@@ -28,16 +28,23 @@ import { FormsModule } from '@angular/forms';
 export class LoginComponent {
   email = '';
   password = '';
+  isLoading = false;
 
   constructor(private auth: AuthService, private router: Router) {}
 
   login() {
-    const success = this.auth.login(this.email, this.password);
+    if (this.isLoading) return;
 
-    if (success) {
-      this.router.navigate(['/app/dashboard']);
-    } else {
-      alert('Invalid credentials');
-    }
+    this.isLoading = true;
+    this.auth.login(this.email, this.password).subscribe({
+      next: () => {
+        this.isLoading = false;
+        this.router.navigate(['/app/dashboard']);
+      },
+      error: error => {
+        this.isLoading = false;
+        alert(error?.error?.message ?? error?.message ?? 'Invalid credentials');
+      }
+    });
   }
 }

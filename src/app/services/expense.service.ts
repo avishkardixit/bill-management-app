@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Expense } from '../Models/expense.model';
 import { Observable, of, tap } from 'rxjs';
+import { API_BASE_URL } from '../api.config';
 
 @Injectable({ providedIn: 'root' })
 export class ExpenseService {
-  private api = 'https://krushna-billing-api.azurewebsites.net/api/otherexpenses';
+  private api = `${API_BASE_URL}/otherexpenses`;
 
   // 👇 cache
   private expenseCache: Expense[] | null = null;
