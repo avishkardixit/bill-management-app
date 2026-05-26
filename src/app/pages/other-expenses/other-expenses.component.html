@@ -13,7 +13,7 @@
         <strong>₹{{ total }}</strong>
       </div>
 
-      <button mat-raised-button color="primary" (click)="add()">
+      <button *ngIf="auth.canWrite" mat-raised-button color="primary" (click)="add()">
         + Add Expense
       </button>
     </div>
@@ -28,7 +28,7 @@
           <th>Name</th>
           <th>Expense</th>
           <th class="right">Amount</th>
-          <th class="center">Actions</th>
+          <th class="center" *ngIf="auth.canWrite">Actions</th>
         </tr>
       </thead>
 
@@ -38,14 +38,14 @@
           <td>{{ e.personName }}</td>
           <td>{{ e.expenseName }}</td>
           <td class="right">₹{{ e.amount }}</td>
-          <td class="center actions">
+          <td class="center actions" *ngIf="auth.canWrite">
             <button mat-stroked-button color="primary" (click)="edit(e)">Edit</button>
             <button mat-stroked-button color="warn" (click)="delete(e.id)">Delete</button>
           </td>
         </tr>
 
         <tr *ngIf="expenses.length === 0">
-          <td colspan="5" class="empty">No expenses added yet</td>
+          <td [attr.colspan]="auth.canWrite ? 5 : 4" class="empty">No expenses added yet</td>
         </tr>
       </tbody>
     </table>

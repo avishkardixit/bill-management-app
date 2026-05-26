@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { PurchaseOrderService } from '../../services/purchase-order.service';
 import { PurchaseOrderDialogComponent } from '../../shared/purchase-order-dialog/purchase-order-dialog.component';
+import { AuthService } from '../../auth.service';
 
 @Component({
   standalone: true,
@@ -20,7 +21,8 @@ export class PurchaseOrdersComponent implements OnInit {
   constructor(
     private service: PurchaseOrderService,
     private dialog: MatDialog,
-    private snack: MatSnackBar
+    private snack: MatSnackBar,
+    public auth: AuthService
   ) {}
 
   ngOnInit() {
@@ -36,10 +38,12 @@ export class PurchaseOrdersComponent implements OnInit {
   }
 
   add() {
+    if (!this.auth.canWrite) return;
     this.openDialog({ date: new Date().toISOString().substring(0, 10) });
   }
 
   edit(item: any) {
+    if (!this.auth.canWrite) return;
     this.openDialog({ ...item });
   }
 
@@ -64,6 +68,7 @@ export class PurchaseOrdersComponent implements OnInit {
   }
 
   delete(id: number) {
+    if (!this.auth.canWrite) return;
     if (!confirm('Delete this entry?')) return;
 
     this.service.delete(id).subscribe(() => {

@@ -13,7 +13,7 @@
         {{ s.availableKg }} kg
       </div>
 
-      <div class="actions">
+      <div class="actions" *ngIf="auth.canWrite">
         <ng-container *ngIf="!s.editing; else editMode">
           <button class="btn-outline" (click)="s.editing = true">
             Edit

@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AccountService } from '../../services/account.service';
 import { AccountTransactionDialogComponent } from '../../shared/account-transaction-dialog/account-transaction-dialog.component';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-account-book',
@@ -21,7 +22,8 @@ export class AccountBookComponent implements OnInit {
   constructor(
     private service: AccountService,
     private dialog: MatDialog,
-    private snack: MatSnackBar
+    private snack: MatSnackBar,
+    public auth: AuthService
   ) {}
 
   ngOnInit() {
@@ -33,6 +35,7 @@ export class AccountBookComponent implements OnInit {
   }
 
   open(account: any, type: 'Credit' | 'Debit') {
+    if (!this.auth.canWrite) return;
     const ref = this.dialog.open(AccountTransactionDialogComponent, {
       data: { type, amount: 0, note: '' }
     });

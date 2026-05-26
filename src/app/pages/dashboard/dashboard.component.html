@@ -2,7 +2,7 @@
   <h2>Dashboard</h2>
 
   <!-- Primary action -->
-  <div class="primary" routerLink="/app/billing">
+  <div class="primary" routerLink="/app/billing" *ngIf="auth.canWrite">
     <div class="icon">🧾</div>
     <div>
       <h3>Create Bill</h3>

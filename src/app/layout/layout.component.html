@@ -10,7 +10,7 @@
 
     <nav>
       <a routerLink="/app/dashboard" routerLinkActive="active">Dashboard</a>
-      <a routerLink="/app/billing" routerLinkActive="active">Create Bill</a>
+      <a *ngIf="auth.canWrite" routerLink="/app/billing" routerLinkActive="active">Create Bill</a>
       <a routerLink="/app/sell-orders" routerLinkActive="active">Sell Orders</a>
       <a routerLink="/app/purchase-orders" routerLinkActive="active"
         >Purchase Orders</a
@@ -42,6 +42,17 @@
       </button>
 
       <span class="title">Billing App</span>
+      <span class="user-name" *ngIf="auth.fullName">{{ auth.fullName }}</span>
+      <span class="toolbar-spacer"></span>
+      <button
+        *ngIf="auth.isAdmin"
+        mat-stroked-button
+        color="primary"
+        routerLink="/app/admin/users"
+        routerLinkActive="active-admin"
+      >
+        Admin Panel
+      </button>
     </mat-toolbar>
 
     <!-- Page content -->

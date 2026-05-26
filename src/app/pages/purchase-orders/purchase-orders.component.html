@@ -6,7 +6,7 @@
       <p class="subtitle">Manage all purchase entries</p>
     </div>
 
-    <button mat-raised-button color="primary" (click)="add()">
+    <button *ngIf="auth.canWrite" mat-raised-button color="primary" (click)="add()">
       + Add Purchase
     </button>
   </div>
@@ -22,7 +22,7 @@
           <th>Party</th>
           <th>Color</th>
           <th>Amount</th>
-          <th class="actions-col">Actions</th>
+          <th class="actions-col" *ngIf="auth.canWrite">Actions</th>
         </tr>
       </thead>
 
@@ -35,14 +35,14 @@
             <span class="color-pill">{{ o.color }}</span>
           </td>
           <td class="amount">₹{{ o.amountPaid }}</td>
-          <td class="actions">
+          <td class="actions" *ngIf="auth.canWrite">
             <button mat-stroked-button color="primary" (click)="edit(o)">Edit</button>
             <button mat-stroked-button color="warn" (click)="delete(o.id)">Delete</button>
           </td>
         </tr>
 
         <tr *ngIf="orders.length === 0">
-          <td colspan="6" class="empty">
+          <td [attr.colspan]="auth.canWrite ? 6 : 5" class="empty">
             No purchase orders yet
           </td>
         </tr>

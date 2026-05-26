@@ -9,9 +9,10 @@ import { StockBookComponent } from './pages/stock-book/stock-book.component';
 import { AccountBookComponent } from './pages/account-book/account-book.component';
 import { LendingBookComponent } from './pages/lending-book/lending-book.component';
 import { OtherExpensesComponent } from './pages/other-expenses/other-expenses.component';
-import { authGuard } from './auth.guard';
+import { adminGuard, authChildGuard, authGuard, writeGuard } from './auth.guard';
 import { CreateBillComponent } from './pages/create-bill/create-bill.component';
 import { BillViewComponent } from './pages/bill-view/bill-view.component';
+import { AdminUsersComponent } from './pages/admin-users/admin-users.component';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -20,6 +21,7 @@ export const routes: Routes = [
     path: 'app',
     component: LayoutComponent,
     canActivate: [authGuard],
+    canActivateChild: [authChildGuard],
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'sell-orders', component: SellOrdersComponent },
@@ -28,7 +30,8 @@ export const routes: Routes = [
       { path: 'account-book', component: AccountBookComponent },
       { path: 'lending-book', component: LendingBookComponent },
       { path: 'other-expenses', component: OtherExpensesComponent },
-      { path: 'billing', component: CreateBillComponent },
+      { path: 'billing', component: CreateBillComponent, canActivate: [writeGuard] },
+      { path: 'admin/users', component: AdminUsersComponent, canActivate: [adminGuard] },
       { path: 'bill/:id', component: BillViewComponent }
     ]
   },

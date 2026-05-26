@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { BillService } from '../../services/bill.service';
@@ -7,11 +8,12 @@ import { ExpenseService } from '../../services/expense.service';
 import { LendingService } from '../../services/lending.service';
 import { PurchaseOrderService } from '../../services/purchase-order.service';
 import { StockService } from '../../services/stock.service';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -23,7 +25,8 @@ export class DashboardComponent implements OnInit {
     private expenseService: ExpenseService,
     private lendingService: LendingService,
     private purchaseService: PurchaseOrderService,
-    private stockService: StockService
+    private stockService: StockService,
+    public auth: AuthService
   ) {}
 
   ngOnInit() {

@@ -46,11 +46,33 @@ nav a.active {
   background: #fff;
   color: #111;
   box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  gap: 12px;
 }
 
 .title {
   font-size: 16px;
   font-weight: 600;
+}
+
+.user-name {
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.toolbar-spacer {
+  flex: 1;
+}
+
+.topbar button {
+  height: 36px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.active-admin {
+  background: #eff6ff;
 }
 
 /* Content */

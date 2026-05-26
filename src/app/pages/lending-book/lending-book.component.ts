@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SimpleInputDialogComponent } from '../../shared/simple-input-dialog/simple-input-dialog.component';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-lending-book',
@@ -36,7 +37,8 @@ export class LendingBookComponent implements OnInit {
   constructor(
   private lendingService: LendingService,
   private dialog: MatDialog,
-  private snack: MatSnackBar
+  private snack: MatSnackBar,
+  public auth: AuthService
   ) {}
 
   ngOnInit() {
@@ -48,6 +50,7 @@ export class LendingBookComponent implements OnInit {
   }
 
   openAddPartyDialog() {
+  if (!this.auth.canWrite) return;
   const ref = this.dialog.open(SimpleInputDialogComponent);
   ref.componentInstance.title = 'Add Party';
   ref.componentInstance.label = 'Party Name';
@@ -63,6 +66,7 @@ export class LendingBookComponent implements OnInit {
 }
 
 addAmount(party: any) {
+  if (!this.auth.canWrite) return;
   const ref = this.dialog.open(SimpleInputDialogComponent);
   ref.componentInstance.title = `Add Amount - ${party.partyName}`;
   ref.componentInstance.label = 'Amount';
@@ -79,6 +83,7 @@ addAmount(party: any) {
 }
 
 receiveAmount(party: any) {
+  if (!this.auth.canWrite) return;
   const ref = this.dialog.open(SimpleInputDialogComponent);
   ref.componentInstance.title = `Receive Amount - ${party.partyName}`;
   ref.componentInstance.label = 'Amount';
@@ -95,6 +100,7 @@ receiveAmount(party: any) {
 }
 
 delete(id: number) {
+  if (!this.auth.canWrite) return;
   if (!confirm('Are you sure?')) return;
 
   this.lendingService.deleteParty(id).subscribe(() => {

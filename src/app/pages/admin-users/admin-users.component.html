@@ -1,0 +1,47 @@
+<div class="admin-users-page">
+  <div class="page-header">
+    <div>
+      <h2>Admin Panel</h2>
+      <p>Create users and assign role-based access.</p>
+    </div>
+  </div>
+
+  <mat-card class="user-card">
+    <div class="card-header">
+      <h3>New User</h3>
+      <span>{{ user.accessLevel }} Access</span>
+    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Full Name</mat-label>
+      <input matInput required [(ngModel)]="user.fullName" />
+      <mat-error *ngIf="submitted && !user.fullName.trim()">Full name is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput required type="email" [(ngModel)]="user.email" />
+      <mat-error *ngIf="submitted && !isValidEmail(user.email)">Enter a valid email</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput required minlength="8" type="password" [(ngModel)]="user.password" />
+      <mat-hint>Minimum 8 characters</mat-hint>
+      <mat-error *ngIf="submitted && user.password.length < 8">Password must be at least 8 characters</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Access Level</mat-label>
+      <mat-select required [(ngModel)]="user.accessLevel">
+        <mat-option *ngFor="let level of accessLevels" [value]="level">
+          {{ level }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="register()" [disabled]="isSaving">
+      {{ isSaving ? 'Creating...' : 'Create User' }}
+    </button>
+  </mat-card>
+</div>

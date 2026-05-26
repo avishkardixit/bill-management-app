@@ -4,14 +4,16 @@
     <h1 class="title">Bill Manager</h1>
     <p class="subtitle">Login to continue</p>
 
-    <mat-form-field appearance="fill" class="full">
+    <mat-form-field appearance="outline" class="full">
       <mat-label>Username</mat-label>
-      <input matInput [(ngModel)]="email" />
+      <input matInput required [(ngModel)]="email" />
+      <mat-error *ngIf="submitted && !email.trim()">Username is required</mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" class="full">
+    <mat-form-field appearance="outline" class="full">
       <mat-label>Password</mat-label>
-      <input matInput type="password" [(ngModel)]="password" />
+      <input matInput required type="password" [(ngModel)]="password" />
+      <mat-error *ngIf="submitted && !password">Password is required</mat-error>
     </mat-form-field>
 
     <button mat-raised-button color="primary" class="full" (click)="login()" [disabled]="isLoading">

@@ -2,7 +2,7 @@
   <h2>Lending Book</h2>
 
   <!-- Add party -->
-  <div class="add-party">
+  <div class="add-party" *ngIf="auth.canWrite">
     <button (click)="openAddPartyDialog()">Add Party</button>
   </div>
 
@@ -27,13 +27,13 @@
         <button mat-stroked-button color="accent" (click)="select(p)">
           {{ selected?.id === p.id ? 'Hide History' : 'View History' }}
         </button>
-        <button mat-stroked-button color="primary" (click)="addAmount(p)">
+        <button *ngIf="auth.canWrite" mat-stroked-button color="primary" (click)="addAmount(p)">
           Add Amount
         </button>
-        <button mat-stroked-button color="accent" (click)="receiveAmount(p)">
+        <button *ngIf="auth.canWrite" mat-stroked-button color="accent" (click)="receiveAmount(p)">
           Received Amount
         </button>
-        <button mat-stroked-button color="warn" (click)="delete(p.id)">
+        <button *ngIf="auth.canWrite" mat-stroked-button color="warn" (click)="delete(p.id)">
           Delete Entry
         </button>
       </td>

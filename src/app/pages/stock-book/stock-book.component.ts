@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StockService } from '../../services/stock.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../auth.service';
 
 
 @Component({
@@ -17,7 +18,10 @@ export class StockBookComponent implements OnInit {
   filteredHistory: any[] = [];
   selectedColor = '';
 
-  constructor(private stockService: StockService) {}
+  constructor(
+    private stockService: StockService,
+    public auth: AuthService
+  ) {}
 
   ngOnInit() {
     this.load();
@@ -47,6 +51,7 @@ export class StockBookComponent implements OnInit {
   }
 
   save(stock: any) {
+    if (!this.auth.canWrite) return;
     this.stockService.updateStock(stock.id, stock.availableKg)
       .subscribe(() => alert('Updated'));
   }

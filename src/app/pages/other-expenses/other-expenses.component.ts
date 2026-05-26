@@ -7,6 +7,7 @@ import { ExpenseService } from '../../services/expense.service';
 import { ExpenseDialogComponent } from '../../shared/expense-dialog/expense-dialog.component';
 
 import { MatButtonModule } from '@angular/material/button';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-other-expenses',
@@ -21,7 +22,8 @@ export class OtherExpensesComponent implements OnInit {
   constructor(
     private service: ExpenseService,
     private dialog: MatDialog,
-    private snack: MatSnackBar
+    private snack: MatSnackBar,
+    public auth: AuthService
   ) {}
 
   ngOnInit() {
@@ -37,6 +39,7 @@ export class OtherExpensesComponent implements OnInit {
   }
 
   add() {
+    if (!this.auth.canWrite) return;
     const ref = this.dialog.open(ExpenseDialogComponent, {
       data: { date: new Date().toISOString().substring(0,10) }
     });
@@ -51,6 +54,7 @@ export class OtherExpensesComponent implements OnInit {
   }
 
   edit(exp: any) {
+    if (!this.auth.canWrite) return;
     const ref = this.dialog.open(ExpenseDialogComponent, { data: { ...exp } });
 
     ref.afterClosed().subscribe(res => {
@@ -63,6 +67,7 @@ export class OtherExpensesComponent implements OnInit {
   }
 
   delete(id: number) {
+    if (!this.auth.canWrite) return;
     if (!confirm('Delete expense?')) return;
     this.service.delete(id).subscribe(() => {
       this.snack.open('Deleted', 'OK', { duration: 2000 });
